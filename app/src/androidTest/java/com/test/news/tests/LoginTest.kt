@@ -1,7 +1,7 @@
-package com.test.news.Tests
+package com.test.news.tests
 
-import com.test.news.*
-import com.test.news.Utils.*
+import com.test.news.BaseEspressoTest
+import com.test.news.utils.*
 import org.junit.Test
 
 class LoginTest : BaseEspressoTest() {
@@ -10,7 +10,7 @@ class LoginTest : BaseEspressoTest() {
      * Espresso tests that covers user story: As a user I want to log in to the app
      */
 
-    @TestedScenarioAnnotation("user opens the android app first time (when not logged in yet)")
+    @TestedScenario("user opens the android app first time (when not logged in yet)")
     @Test
     fun firstTimeAppOpen() {
         loginScreen {
@@ -18,7 +18,7 @@ class LoginTest : BaseEspressoTest() {
         }
     }
 
-    @TestedScenarioAnnotation("the user provided wrong user name")
+    @TestedScenario("the user provided wrong user name")
     @Test
     fun tryLoginWithIncorrectUsername() {
         loginScreen {
@@ -30,7 +30,7 @@ class LoginTest : BaseEspressoTest() {
         }
     }
 
-    @TestedScenarioAnnotation("the user provided wrong password")
+    @TestedScenario("the user provided wrong password")
     @Test
     fun tryLoginWithIncorrectPassword() {
         loginScreen {
@@ -42,7 +42,7 @@ class LoginTest : BaseEspressoTest() {
         }
     }
 
-    @TestedScenarioAnnotation("the user provided wrong user name and password")
+    @TestedScenario("the user provided wrong user name and password")
     @Test
     fun tryLoginWithIncorrectCredentials() {
         loginScreen {
@@ -54,7 +54,7 @@ class LoginTest : BaseEspressoTest() {
         }
     }
 
-    @TestedScenarioAnnotation("user login succeed")
+    @TestedScenario("user login succeed")
     @Test
     fun tryLoginWithCorrectCredentials() {
         loginScreen {
@@ -67,9 +67,22 @@ class LoginTest : BaseEspressoTest() {
         }
     }
 
-
-
-
-
+    @TestedScenario("user opens app next time (previously logged in)")
+    @Test
+    fun openAppWhenAlreadyLoggedIn() {
+        loginScreen {
+            fillUserName()
+            fillPassword()
+            clickLoginButton()
+        }
+        newsScreen {
+            assertNewsScreenIsOpen()
+        }
+        closeCurrentActivity()
+        startActivity()
+        newsScreen {
+            assertNewsScreenIsOpen()
+        }
+    }
 
 }

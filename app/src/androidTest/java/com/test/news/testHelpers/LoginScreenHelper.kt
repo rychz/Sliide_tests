@@ -1,11 +1,11 @@
-package com.test.news.Helpers
+package com.test.news.testHelpers
 
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.hasErrorText
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import com.test.news.*
-import com.test.news.Utils.*
+import com.test.news.R
+import com.test.news.utils.*
 
 class LoginScreenHelper {
 
