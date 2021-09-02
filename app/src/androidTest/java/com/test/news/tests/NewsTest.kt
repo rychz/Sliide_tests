@@ -1,13 +1,11 @@
 package com.test.news.tests
 
-import android.app.Activity.RESULT_OK
 import android.app.Instrumentation
 import android.content.Intent
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.Intents.intending
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
-import androidx.test.espresso.intent.matcher.IntentMatchers.hasData
 import com.test.news.BaseEspressoTest
 import org.hamcrest.Matchers.allOf
 import org.junit.Test
@@ -27,7 +25,6 @@ class NewsTest : BaseEspressoTest() {
             clickLoginButton()
         }
         newsScreen {
-
             assertNewsScreenIsOpen()
             assertNewsAreLoaded()
         }
@@ -42,8 +39,6 @@ class NewsTest : BaseEspressoTest() {
         }
         newsScreen {
             assertNewsScreenIsOpen()
-
-
             Intents.init()
             openNewsAtPosition()
             val expectedIntent = allOf(hasAction(Intent.ACTION_VIEW))

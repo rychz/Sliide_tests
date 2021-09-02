@@ -19,7 +19,7 @@ import com.test.news.R
 
 // General
 val instrumentation: Instrumentation = InstrumentationRegistry.getInstrumentation()
-val uiAutomation : UiAutomation = instrumentation.uiAutomation
+val uiAutomation: UiAutomation = instrumentation.uiAutomation
 val appContext: Context = instrumentation.targetContext
 val device: UiDevice = UiDevice.getInstance(instrumentation)
 val targetPackage: String = appContext.packageName
@@ -42,14 +42,20 @@ fun ViewInteraction.onRecyclerViewElement(position: Int, action: ViewAction): Vi
 // UiAutomator
 const val UI_AUTOMATOR_TIMEOUT = 5L
 
-fun UiDevice.waitForElementWithTextToBeVisible(elementText : Int) {
-    this.wait(Until.hasObject(By.text(appContext.getString(R.string.app_name))), UI_AUTOMATOR_TIMEOUT)
+fun UiDevice.waitForElementWithTextToBeVisible(elementText: Int) {
+    this.wait(
+        Until.hasObject(By.text(appContext.getString(R.string.app_name))),
+        UI_AUTOMATOR_TIMEOUT
+    )
 }
 
-fun UiDevice.waitForElementWithTextToBeVisible(elementText : String) {
+fun UiDevice.waitForElementWithTextToBeVisible(elementText: String) {
     this.wait(Until.hasObject(By.text(elementText)), UI_AUTOMATOR_TIMEOUT)
 }
 
-fun UiDevice.waitForElementWithIdToBeVisible(elementId : Int) {
-    this.wait(Until.hasObject(By.res(targetPackage, appContext.getString(elementId))), UI_AUTOMATOR_TIMEOUT)
+fun UiDevice.waitForElementWithIdToBeVisible(elementId: Int) {
+    this.wait(
+        Until.hasObject(By.res(targetPackage, appContext.getString(elementId))),
+        UI_AUTOMATOR_TIMEOUT
+    )
 }
