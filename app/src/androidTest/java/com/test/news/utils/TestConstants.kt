@@ -1,4 +1,4 @@
-package com.test.news.Utils
+package com.test.news.utils
 
 const val DEFAULT_USERNAME = "user"
 const val DEFAULT_PASSWORD = "password"
