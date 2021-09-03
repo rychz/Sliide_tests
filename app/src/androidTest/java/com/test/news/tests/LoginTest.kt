@@ -13,7 +13,7 @@ class LoginTest : BaseEspressoTest() {
     @TestedScenario("user opens the android app first time (when not logged in yet)")
     @Test
     fun firstTimeAppOpen() {
-        loginScreen {
+        inLoginScreen {
             verifyUi()
         }
     }
@@ -21,7 +21,7 @@ class LoginTest : BaseEspressoTest() {
     @TestedScenario("the user provided wrong user name")
     @Test
     fun tryLoginWithIncorrectUsername() {
-        loginScreen {
+        inLoginScreen {
             fillUserName(INCORRECT_USERNAME)
             fillPassword()
             clickLoginButton()
@@ -33,7 +33,7 @@ class LoginTest : BaseEspressoTest() {
     @TestedScenario("the user provided wrong password")
     @Test
     fun tryLoginWithIncorrectPassword() {
-        loginScreen {
+        inLoginScreen {
             fillUserName()
             fillPassword(INCORRECT_PASSWORD)
             clickLoginButton()
@@ -45,7 +45,7 @@ class LoginTest : BaseEspressoTest() {
     @TestedScenario("the user provided wrong user name and password")
     @Test
     fun tryLoginWithIncorrectCredentials() {
-        loginScreen {
+        inLoginScreen {
             fillUserName(INCORRECT_USERNAME)
             fillPassword(INCORRECT_PASSWORD)
             clickLoginButton()
@@ -57,12 +57,12 @@ class LoginTest : BaseEspressoTest() {
     @TestedScenario("user login succeed")
     @Test
     fun tryLoginWithCorrectCredentials() {
-        loginScreen {
+        inLoginScreen {
             fillUserName(CORRECT_USERNAME)
             fillPassword(CORRECT_PASSWORD)
             clickLoginButton()
         }
-        newsScreen {
+        inNewsScreen {
             assertNewsScreenIsOpen()
         }
     }
@@ -70,17 +70,17 @@ class LoginTest : BaseEspressoTest() {
     @TestedScenario("user opens app next time (previously logged in)")
     @Test
     fun openAppWhenAlreadyLoggedIn() {
-        loginScreen {
+        inLoginScreen {
             fillUserName()
             fillPassword()
             clickLoginButton()
         }
-        newsScreen {
+        inNewsScreen {
             assertNewsScreenIsOpen()
         }
         closeCurrentActivity()
         startActivity()
-        newsScreen {
+        inNewsScreen {
             assertNewsScreenIsOpen()
         }
     }

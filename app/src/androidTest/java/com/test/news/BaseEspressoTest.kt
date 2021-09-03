@@ -13,18 +13,18 @@ open class BaseEspressoTest {
     @get:Rule
     var activityTestRule = ActivityTestRule(LoginActivity::class.java)
 
-    protected fun loginScreen(func: LoginScreenHelper.() -> Unit) =
+    protected fun inLoginScreen(func: LoginScreenHelper.() -> Unit) =
         LoginScreenHelper().apply { func() }
 
-    protected fun newsScreen(func: NewsScreenHelper.() -> Unit) =
+    protected fun inNewsScreen(func: NewsScreenHelper.() -> Unit) =
         NewsScreenHelper().apply { func() }
 
-    fun closeCurrentActivity() {
+    protected fun closeCurrentActivity() {
         Espresso.pressBackUnconditionally()
         assertTrue(activityTestRule.activity.isFinishing)
     }
 
-    fun startActivity() {
+    protected fun startActivity() {
         activityTestRule.launchActivity(null)
     }
 }

@@ -1,13 +1,9 @@
 package com.test.news.tests
 
-import android.app.Instrumentation
-import android.content.Intent
-import androidx.test.espresso.intent.Intents
-import androidx.test.espresso.intent.Intents.intended
-import androidx.test.espresso.intent.Intents.intending
-import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
 import com.test.news.BaseEspressoTest
-import org.hamcrest.Matchers.allOf
+import com.test.news.testHelpers.disableOfflineMode
+import com.test.news.testHelpers.enableOfflineMode
+import com.test.news.utils.TestedScenario
 import org.junit.Test
 
 
@@ -17,34 +13,53 @@ class NewsTest : BaseEspressoTest() {
      * Espresso tests that covers user story: As a user I want to see my news
      */
 
+    @TestedScenario("news images are loaded")
     @Test
-    fun asd() {
-        loginScreen {
+    fun checkImagesWereLoaded() {
+        inLoginScreen {
             fillUserName()
             fillPassword()
             clickLoginButton()
         }
-        newsScreen {
-            assertNewsScreenIsOpen()
+        inNewsScreen {
+            assertMainRecyclerViewIsDisplayed()
             assertNewsAreLoaded()
         }
     }
 
+    @TestedScenario("news image is clicked")
     @Test
-    fun qwe() {
-        loginScreen {
+    fun checkWebBrowserOpensOnClick() {
+        val newsRow = 0
+        val newsPos = 2
+        inLoginScreen {
             fillUserName()
             fillPassword()
             clickLoginButton()
         }
-        newsScreen {
-            assertNewsScreenIsOpen()
-            Intents.init()
-            openNewsAtPosition()
-            val expectedIntent = allOf(hasAction(Intent.ACTION_VIEW))
-            intending(expectedIntent).respondWith(Instrumentation.ActivityResult(0, null))
-            intended(expectedIntent)
-            Intents.release()
+        inNewsScreen {
+            assertMainRecyclerViewIsDisplayed()
+            openNewsAndValidateBrowserIntent(newsRow, newsPos)
+        }
+    }
+
+    @TestedScenario("failed to load images")
+    @Test
+    fun checkErrorWhileOffline() {
+        try {
+            enableOfflineMode()
+            inLoginScreen {
+                fillUserName()
+                fillPassword()
+                clickLoginButton()
+            }
+            inNewsScreen {
+                assertNewsScreenIsOpen()
+                assertFailedToLoadNewsError()
+            }
+        } finally {
+            disableOfflineMode()
+
         }
     }
 

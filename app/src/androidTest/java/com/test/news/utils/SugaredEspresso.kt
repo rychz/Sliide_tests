@@ -10,6 +10,7 @@ import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiDevice
@@ -37,6 +38,9 @@ fun ViewInteraction.isDisplayed(): ViewInteraction =
 
 fun ViewInteraction.onRecyclerViewElement(position: Int, action: ViewAction): ViewInteraction =
     this.perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(position, action))
+
+fun ViewInteraction.hasText(expectedText: Int): ViewInteraction =
+    this.check(matches(withText(expectedText)))
 
 
 // UiAutomator
