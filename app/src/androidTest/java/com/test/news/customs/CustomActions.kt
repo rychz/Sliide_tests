@@ -54,7 +54,7 @@ fun retrieveNewsUrl(matcher: ViewInteraction, newsPos: Int): String {
         override fun perform(uiController: UiController, view: View) {
             val rv = view as RecyclerView
             val newsAdapter = rv.adapter as NewsImagesAdapter
-            val urlsList = newsAdapter.getImageUrlsList()
+            val urlsList = newsAdapter.getImagesUrlsList()
             if (urlsList.size > newsPos) {
                 targetNewsUrl = urlsList[newsPos]
             } else {
