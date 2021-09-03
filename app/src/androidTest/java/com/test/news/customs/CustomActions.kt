@@ -1,4 +1,4 @@
-package com.test.news.utils
+package com.test.news.customs
 
 import android.view.View
 import android.widget.ImageView
@@ -12,7 +12,6 @@ import com.test.news.features.news.presentation.adapter.NewsImagesAdapter
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.instanceOf
-import java.lang.RuntimeException
 
 
 fun validateImageHasDrawable(): ViewAction {

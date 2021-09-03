@@ -1,4 +1,4 @@
-package com.test.news.utils
+package com.test.news.customs
 
 import android.view.View
 import org.hamcrest.BaseMatcher

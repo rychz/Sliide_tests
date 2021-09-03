@@ -9,6 +9,10 @@ import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import com.test.news.R
+import com.test.news.customs.getElementFromMatchAtPosition
+import com.test.news.customs.getRecyclerViewChildCount
+import com.test.news.customs.retrieveNewsUrl
+import com.test.news.customs.validateImageHasDrawable
 import com.test.news.utils.*
 import org.hamcrest.Matchers.allOf
 
