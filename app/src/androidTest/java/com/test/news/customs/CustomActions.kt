@@ -1,6 +1,7 @@
 package com.test.news.customs
 
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.UiController
@@ -83,6 +84,34 @@ fun getRecyclerViewChildCount(matcher: ViewInteraction): Int {
         override fun perform(uiController: UiController, view: View) {
             val rv = view as RecyclerView
             childCount = rv.adapter?.itemCount ?: throw NullPointerException("Adapter was null")
+        }
+    })
+
+    return childCount
+}
+
+fun getNestedRecyclerViewChildCount(matcher: ViewInteraction, childPosition: Int): Int {
+    var childCount: Int = -1
+    matcher.perform(object : ViewAction {
+
+        override fun getConstraints(): Matcher<View> {
+            return allOf(
+                instanceOf(RecyclerView::class.java),
+                isDisplayed()
+            )
+        }
+
+        override fun getDescription(): String {
+            return "Return child count in nested RecyclerView."
+        }
+
+        override fun perform(uiController: UiController, view: View) {
+            val rv = view as RecyclerView
+            val childView = if (childPosition < 3)
+                rv.getChildAt(childPosition) as RecyclerView
+            else
+                rv.getChildAt(2) as RecyclerView
+            childCount = childView.adapter?.itemCount ?: throw NullPointerException("Adapter was null")
         }
     })
 

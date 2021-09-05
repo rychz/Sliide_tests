@@ -9,15 +9,11 @@ import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import com.test.news.R
-import com.test.news.customs.getElementFromMatchAtPosition
-import com.test.news.customs.getRecyclerViewChildCount
-import com.test.news.customs.retrieveNewsUrl
-import com.test.news.customs.validateImageHasDrawable
+import com.test.news.customs.*
 import com.test.news.utils.*
 import org.hamcrest.Matchers.allOf
 
 class NewsScreenHelper {
-    private val maxHorizontalNews = 3
     private val mainRecyclerView = onView(withId(R.id.recyclerViewNews))
     private val offlineModeError = onView(withId(R.id.textViewError))
     private val newsScreenTitle = onView(
@@ -44,8 +40,10 @@ class NewsScreenHelper {
     }
 
     fun assertNewsAreLoaded() {
+        // Loop through all elements in main recycler view
         repeat(getRecyclerViewChildCount(mainRecyclerView)) { mainIterator ->
-            repeat(maxHorizontalNews) {
+            // Loop through all elements in horizontal recycler view
+            repeat(getNestedRecyclerViewChildCount(mainRecyclerView, mainIterator)) {
                 mainRecyclerView.onRecyclerViewElement(mainIterator, validateImageHasDrawable())
                 mainRecyclerView.onRecyclerViewElement(mainIterator, swipeLeft())
             }
