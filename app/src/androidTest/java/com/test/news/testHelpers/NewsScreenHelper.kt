@@ -11,6 +11,7 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import com.test.news.R
 import com.test.news.customs.*
 import com.test.news.utils.*
+import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
 
 class NewsScreenHelper {
@@ -50,23 +51,31 @@ class NewsScreenHelper {
         }
     }
 
-    fun openNewsAndValidateBrowserIntent(newsRow: Int, newsPos: Int) {
-        try {
-            Intents.init()
-            val url = getUrlOfSecondNewsFromRow(newsRow, newsPos)
-            val expectedIntent = allOf(
-                IntentMatchers.hasAction(Intent.ACTION_VIEW),
-                IntentMatchers.hasData(url)
-            )
-            Intents.intending(expectedIntent).respondWith(Instrumentation.ActivityResult(0, null))
-            clickOnNewsAt(newsRow, newsPos)
-            Intents.intended(expectedIntent)
-        } finally {
-            Intents.release()
+    fun openNewsAndValidateBrowserIntent() {
+        // Loop through all elements in main recycler view
+        repeat(getRecyclerViewChildCount(mainRecyclerView)) { mainIterator ->
+            // Loop through all elements in horizontal recycler view
+            repeat(getNestedRecyclerViewChildCount(mainRecyclerView, mainIterator)) {
+                try {
+                    Intents.init()
+                    val url = getUrlOfNewsAt(mainIterator, it)
+                    val expectedIntent = getExpectedBrowserIntent(url)
+                    Intents.intending(expectedIntent)
+                        .respondWith(Instrumentation.ActivityResult(0, null))
+                    mainRecyclerView.onRecyclerViewElement(mainIterator, click())
+                    Intents.intended(expectedIntent)
+                    mainRecyclerView.onRecyclerViewElement(mainIterator, swipeLeft())
+                    // Wait 300ms for swipe animation to finish
+                    Thread.sleep(300)
+                } finally {
+                    Intents.release()
+                }
+            }
         }
+
     }
 
-    private fun getUrlOfSecondNewsFromRow(newsRow: Int, newsPos: Int): String {
+    private fun getUrlOfNewsAt(newsRow: Int, newsPos: Int): String {
         return retrieveNewsUrl(
             onView(
                 getElementFromMatchAtPosition(
@@ -78,14 +87,11 @@ class NewsScreenHelper {
         )
     }
 
-    private fun clickOnNewsAt(newsRow: Int, newsPos: Int) {
-        repeat(newsPos) {
-            mainRecyclerView.onRecyclerViewElement(newsRow, swipeLeft())
-        }
-        // Wait 300ms for swipe animation
-        // to finish before clicking on news
-        Thread.sleep(300)
-        mainRecyclerView.onRecyclerViewElement(newsRow, click())
-
+    private fun getExpectedBrowserIntent(url: String): Matcher<Intent>? {
+        return allOf(
+            IntentMatchers.hasAction(Intent.ACTION_VIEW),
+            IntentMatchers.hasData(url)
+        )
     }
+
 }

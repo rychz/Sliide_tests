@@ -30,8 +30,7 @@ class NewsTest : BaseEspressoTest() {
     @TestedScenario("news image is clicked")
     @Test
     fun checkWebBrowserOpensOnClick() {
-        val newsRow = 0
-        val newsPos = 2
+
         inLoginScreen {
             fillUserName()
             fillPassword()
@@ -39,7 +38,7 @@ class NewsTest : BaseEspressoTest() {
         }
         inNewsScreen {
             assertMainRecyclerViewIsDisplayed()
-            openNewsAndValidateBrowserIntent(newsRow, newsPos)
+            openNewsAndValidateBrowserIntent()
         }
     }
 
